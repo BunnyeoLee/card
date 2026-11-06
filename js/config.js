@@ -9,16 +9,16 @@ export const CONFIG = {
 
   // Firebase 콘솔 > 프로젝트 설정 > 내 앱(웹) 에서 복사한 값
   firebase: {
-    apiKey: '',
-    authDomain: '',
-    projectId: '',
-    storageBucket: '',
-    messagingSenderId: '',
-    appId: '',
+  apiKey: "AIzaSyDhl_29-jk-btbDSq5pQslLTYMoQRJwzmY",
+  authDomain: "fcard-5a033.firebaseapp.com",
+  projectId: "fcard-5a033",
+  storageBucket: "fcard-5a033.firebasestorage.app",
+  messagingSenderId: "725685456244",
+  appId: "1:725685456244:web:58c45b70d6527609e53021",
   },
 
   // 관리자(선생님) Google 계정 이메일. firestore.rules 의 목록과 똑같이 맞춰 주세요.
-  adminEmails: ['teacher@example.com'],
+  adminEmails: ['bnlee0525@gmail.com'],
 
   // 학생 아이디를 내부적으로 이메일 형태로 바꿀 때 쓰는 주소(바꾸지 않아도 됩니다)
   loginDomain: 'student.futurecard',
