@@ -1,0 +1,50 @@
+rules_version = '2';
+
+// 미래 명함 보안 규칙
+// Firebase 콘솔 > Firestore Database > 규칙 탭에 전체를 붙여넣고 [게시]를 누르세요.
+// ▼ 아래 이메일 목록을 선생님(관리자) Google 계정으로 바꾸세요. (js/config.js 의 adminEmails 와 똑같이)
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() { return request.auth != null; }
+
+    function isAdmin() {
+      return signedIn()
+        && request.auth.token.email_verified == true
+        && request.auth.token.email.lower() in ['teacher@example.com'];
+    }
+
+    function isOwner(d) { return signedIn() && d.owner == request.auth.uid; }
+
+    function str(d, k, n) { return !(k in d) || (d[k] is string && d[k].size() <= n); }
+
+    function validCard(d) {
+      return d.keys().hasOnly(['template', 'color', 'company', 'tagline', 'dept', 'title', 'name', 'nameEn', 'cert',
+                               'phone', 'tel', 'email', 'web', 'address', 'bullets', 'quoteType', 'quote', 'quoteBy',
+                               'logo', 'photo', 'visibility', 'owner', 'ownerId', 'ownerName', 'createdAt', 'updatedAt'])
+        && d.visibility in ['public', 'private']
+        && d.name is string && d.name.size() > 0 && d.name.size() <= 20
+        && str(d, 'company', 30) && str(d, 'title', 30) && str(d, 'quote', 120)
+        && str(d, 'logo', 450000) && str(d, 'photo', 450000)
+        && (!('bullets' in d) || (d.bullets is list && d.bullets.size() <= 3));
+    }
+
+    match /cards/{cardId} {
+      // 보기: 공개 명함은 누구나 / 비공개는 주인과 관리자만
+      allow get: if resource.data.visibility == 'public' || isOwner(resource.data) || isAdmin();
+      // 목록: 관리자는 전체, 학생은 자기 명함만
+      allow list: if isAdmin() || isOwner(resource.data);
+      // 만들기: 로그인한 사람이 자기 이름으로만
+      allow create: if signedIn()
+        && request.resource.data.owner == request.auth.uid
+        && validCard(request.resource.data);
+      // 고치기: 주인 또는 관리자 (명함 주인 정보는 바꿀 수 없음)
+      allow update: if (isOwner(resource.data) || isAdmin())
+        && request.resource.data.owner == resource.data.owner
+        && request.resource.data.ownerId == resource.data.ownerId
+        && validCard(request.resource.data);
+      // 삭제: 주인 또는 관리자
+      allow delete: if isOwner(resource.data) || isAdmin();
+    }
+  }
+}

@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>미래 명함 만들기</title>
+<meta name="description" content="10년 뒤 나의 명함을 만들고 NFC 태그에 담아 보세요.">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="css/app.css">
+<link rel="stylesheet" href="css/card.css">
+<script src="js/vendor/qrcode.min.js" defer></script>
+</head>
+<body>
+<header id="header" class="top"></header>
+
+<main class="wrap">
+  <section class="hero">
+    <div>
+      <span class="kicker" id="kicker">나의 미래 명함 NFC 프로젝트</span>
+      <h1>10년 뒤의 나는<br><em>어떤 명함</em>을 건네고 있을까?</h1>
+      <p class="lead">꿈꾸는 회사의 로고와 나의 사진, 직업과 좌우명을 담아 미래 명함을 만들어요. 완성한 명함은 NFC 키링에 담아 휴대폰을 대기만 하면 열려요.</p>
+      <div id="authBox"></div>
+      <div class="steps">
+        <div><b>① 만들기</b>로고·사진을 올리고 정보를 입력</div>
+        <div><b>② 등록하기</b>나만의 명함 주소가 생겨요</div>
+        <div><b>③ NFC에 담기</b>태그에 주소를 쓰면 완성</div>
+      </div>
+    </div>
+    <div class="hero-cards" aria-hidden="true">
+      <div class="bc-frame" id="heroBack"></div>
+      <div class="bc-frame" id="heroFront"></div>
+    </div>
+  </section>
+
+  <section id="mine" hidden>
+    <div class="list-head">
+      <h2>내 명함</h2>
+      <span class="hint" id="mineCount"></span>
+      <span class="grow"></span>
+      <a class="btn primary" href="edit.html">＋ 새 명함 만들기</a>
+    </div>
+    <div class="cards-grid" id="mineGrid"></div>
+  </section>
+</main>
+
+<script type="module" src="js/home.js"></script>
+</body>
+</html>

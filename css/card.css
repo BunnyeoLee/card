@@ -1,0 +1,94 @@
+/* ===== 명함 공통 (900 x 500 px 기준) ===== */
+.bc-frame { position: relative; width: 100%; aspect-ratio: 9 / 5; border-radius: 14px; overflow: hidden;
+  box-shadow: 0 1px 2px rgba(16,24,40,.06), 0 12px 32px rgba(16,24,40,.12); background: #fff; }
+.bc-frame > .bc { position: absolute; top: 0; left: 0; transform-origin: 0 0; transform: scale(var(--s, 1)); }
+
+.bc { width: 900px; height: 500px; position: relative; overflow: hidden; background: #fff; color: #1b2232;
+  font-family: 'Pretendard Variable', Pretendard, -apple-system, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+  -webkit-font-smoothing: antialiased; word-break: keep-all; }
+.bc * { box-sizing: border-box; margin: 0; padding: 0; }
+.bc .is-ph { opacity: .35; }
+.bc img.logo { display: block; max-height: 52px; max-width: 150px; width: auto; height: auto; }
+.bc .mark { width: 52px; height: 52px; border-radius: 14px; background: var(--c); color: #fff; display: flex;
+  align-items: center; justify-content: center; font-weight: 800; font-size: 26px; flex: none; }
+
+/* ----- 클래식 포토 : 앞면 ----- */
+.t-photo.front .ph-circle { position: absolute; width: 390px; height: 390px; border-radius: 50%; background: var(--c-soft); right: -46px; top: 92px; }
+.t-photo.front .photo { position: absolute; right: 72px; top: 118px; width: 226px; height: 292px; border-radius: 22px;
+  background: #e9edf5 center / cover no-repeat; border: 6px solid #fff; box-shadow: 0 12px 30px rgba(20,30,60,.16); overflow: hidden; }
+.t-photo.front .photo.empty { background: #eef1f7; }
+.t-photo.front .top-logo { position: absolute; top: 34px; right: 44px; display: flex; align-items: center; gap: 12px; max-width: 440px; }
+.t-photo .co { font-weight: 800; color: var(--c-dark); letter-spacing: .02em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.t-photo.front .top-logo .co { font-size: 24px; }
+.t-photo.front .left { position: absolute; left: 52px; top: 56px; width: 510px; }
+.t-photo.front .left.full { width: 790px; }
+.t-photo .role { font-size: 20px; font-weight: 700; color: var(--c); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 330px; }
+.t-photo .role .dept { color: #8a93a6; font-weight: 600; font-size: 16px; margin-left: 10px; }
+.t-photo .name { font-size: 58px; font-weight: 800; line-height: 1.16; margin-top: 4px; color: #131a29; white-space: nowrap; }
+.t-photo .name-en { font-size: 15px; color: #8a93a6; letter-spacing: .12em; font-weight: 600; }
+.t-photo .cert { font-size: 14px; color: #6b7487; margin-top: 4px; font-weight: 600; }
+.t-photo .contacts { display: grid; grid-template-columns: 1fr 1fr; gap: 7px 18px; margin-top: 20px; font-size: 18px; color: #2a3243; }
+.t-photo .contacts > div { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.t-photo .contacts .wide { grid-column: 1 / -1; }
+.t-photo .contacts b { color: var(--c); font-weight: 800; margin-right: 9px; }
+.t-photo .bullets { margin-top: 18px; display: grid; gap: 6px; font-size: 16px; color: #3b4357; list-style: none; }
+.t-photo .bullets li { display: flex; gap: 11px; align-items: center; white-space: nowrap; overflow: hidden; }
+.t-photo .bullets .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--c); flex: none; }
+.t-photo .band { position: absolute; left: 0; right: 0; bottom: 0; height: 60px; background: var(--c); color: #fff;
+  display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 0 52px; font-size: 15px; font-weight: 500; }
+.t-photo .band span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.t-photo .band .is-ph { opacity: .6; }
+
+/* ----- 클래식 포토 : 뒷면 ----- */
+.t-photo.back { background: #f6f8fc; }
+.t-photo.back .arc { position: absolute; width: 780px; height: 780px; border-radius: 50%; background: var(--c-soft); left: 60px; top: -530px; }
+.t-photo.back .brand { position: absolute; top: 40px; left: 0; right: 0; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.t-photo.back .brand img.logo { max-height: 64px; max-width: 200px; }
+.t-photo.back .brand .mark { width: 60px; height: 60px; font-size: 30px; border-radius: 16px; }
+.t-photo.back .brand .co { font-size: 28px; letter-spacing: .05em; max-width: 640px; }
+.t-photo.back .brand .tag { font-size: 15px; color: #6b7487; }
+.t-photo.back .quote-wrap { position: absolute; left: 80px; right: 80px; top: 262px; bottom: 34px; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; text-align: center; gap: 14px; }
+.t-photo .q-badge { display: inline-flex; align-items: center; gap: 9px; background: #fff; border: 1.5px solid var(--c-soft2); color: var(--c-dark);
+  font-weight: 700; font-size: 15px; padding: 6px 18px 6px 8px; border-radius: 999px; }
+.t-photo .q-badge .chk { width: 22px; height: 22px; border-radius: 50%; background: var(--c); display: flex; align-items: center; justify-content: center; }
+.t-photo .q-text { font-weight: 700; color: #1b2232; line-height: 1.42; white-space: pre-line; }
+.t-photo .q-by { color: #7a8396; font-size: 17px; font-weight: 600; }
+
+/* ----- 모던 스플릿 : 앞면 ----- */
+.t-split .lp { position: absolute; left: 0; top: 0; bottom: 0; width: 400px; display: flex; flex-direction: column; align-items: center;
+  justify-content: center; gap: 14px; text-align: center; padding: 0 34px; }
+.t-split img.logo.big { max-height: 140px; max-width: 250px; }
+.t-split .mark.big { width: 112px; height: 112px; font-size: 52px; border-radius: 28px; }
+.t-split .lp .co { font-size: 32px; font-weight: 800; color: var(--c-dark); line-height: 1.2; }
+.t-split .lp .tag { font-size: 16px; color: #6b7487; margin-top: -6px; }
+.t-split .lp-bar { position: absolute; left: 0; bottom: 0; width: 400px; height: 10px; background: var(--c); }
+.t-split .divider { position: absolute; left: 400px; top: 68px; bottom: 68px; width: 1.5px; background: #e2e6ee; }
+.t-split .photo-sm { position: absolute; right: 44px; top: 54px; width: 100px; height: 100px; border-radius: 50%;
+  background: #eef1f7 center / cover no-repeat; border: 4px solid var(--c-soft2); overflow: hidden; }
+.t-split .photo-sm.empty svg { transform: translateY(6px); }
+.t-split .rp { position: absolute; left: 450px; right: 44px; top: 58px; bottom: 50px; display: flex; flex-direction: column; }
+.t-split .rp-head.with-photo { padding-right: 120px; }
+.t-split .role { font-size: 19px; color: #8a93a6; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.t-split .name { font-size: 58px; font-weight: 800; color: var(--c-dark); line-height: 1.18; margin-top: 4px; white-space: nowrap; }
+.t-split .cert { font-size: 15px; color: #556075; font-weight: 600; margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.t-split .cert.en { letter-spacing: .12em; color: #8a93a6; }
+.t-split .contacts { margin-top: auto; display: grid; grid-template-columns: 46px 1fr; row-gap: 10px; font-size: 21px; color: #2a3243; }
+.t-split .contacts b { color: var(--c-dark); font-weight: 800; }
+.t-split .contacts span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.t-split .addr { margin-top: 16px; font-size: 16px; color: #6b7487; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* ----- 모던 스플릿 : 뒷면 ----- */
+.t-split.back { background: var(--c-dark); color: #fff; }
+.t-split.back .glow { position: absolute; width: 700px; height: 700px; border-radius: 50%; background: var(--c); opacity: .55; right: -260px; top: -320px; }
+.t-split.back .center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 0 90px; }
+.t-split.back .logo-circle { width: 104px; height: 104px; border-radius: 50%; background: #fff; display: flex; align-items: center; justify-content: center; margin-bottom: 14px; }
+.t-split.back .logo-circle img.logo { max-width: 72px; max-height: 64px; }
+.t-split.back .logo-circle .mark { width: 64px; height: 64px; font-size: 32px; border-radius: 50%; }
+.t-split.back .co { font-size: 34px; font-weight: 800; letter-spacing: .03em; }
+.t-split.back .tag { font-size: 16px; opacity: .78; margin-top: 4px; }
+.t-split.back .line { width: 56px; height: 2px; background: rgba(255,255,255,.45); margin: 22px 0 16px; }
+.t-split.back .q-label { font-size: 13px; letter-spacing: .14em; opacity: .7; font-weight: 700; margin-bottom: 8px; }
+.t-split.back .q-text { font-weight: 600; line-height: 1.45; white-space: pre-line; }
+.t-split.back .q-by { font-size: 16px; opacity: .72; margin-top: 10px; }
+.t-split.back .is-ph { opacity: .45; }

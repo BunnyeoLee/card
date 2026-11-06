@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>미래 명함 만들기 · 편집</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="css/app.css">
+<link rel="stylesheet" href="css/card.css">
+<script src="js/vendor/qrcode.min.js" defer></script>
+<script src="js/vendor/html2canvas.min.js" defer></script>
+</head>
+<body>
+<header id="header" class="top"></header>
+
+<main class="wrap">
+  <div id="gate" class="panel gate" hidden>
+    <div class="big">🔒</div>
+    <h2>로그인이 필요해요</h2>
+    <p class="hint">명함을 만들고 고치려면 먼저 로그인해 주세요.</p>
+    <a class="btn primary" href="./#login">로그인하러 가기</a>
+  </div>
+
+  <div class="editor" id="editor" hidden>
+    <form id="form" class="panel" novalidate autocomplete="off">
+      <section class="sec">
+        <h3><span class="n">1</span>디자인 고르기</h3>
+        <div class="choice-row">
+          <label class="choice"><input type="radio" name="template" value="photo" checked><span class="box"><span class="mini photo"></span>클래식 포토</span></label>
+          <label class="choice"><input type="radio" name="template" value="split"><span class="box"><span class="mini split"></span>모던 스플릿</span></label>
+        </div>
+        <div class="field"><span>대표 색상</span><div class="swatches" id="swatches"></div></div>
+      </section>
+
+      <section class="sec">
+        <h3><span class="n">2</span>미래의 회사 <small>꿈꾸는 회사를 직접 만들어도 좋아요</small></h3>
+        <div class="field"><span>회사 로고</span>
+          <div class="upload"><div class="thumb" id="logoThumb">🏢</div>
+            <div class="txt"><b>로고 이미지 올리기</b>배경이 투명한 PNG면 더 예뻐요</div>
+            <div class="btns"><label class="btn sm">선택<input type="file" id="logoFile" accept="image/*" hidden></label>
+              <button type="button" class="btn sm" id="logoDel" hidden>지우기</button></div></div></div>
+        <label class="field"><span>회사 이름 <span class="req">*</span></span><input type="text" name="company" maxlength="30" placeholder="예) 그린웨이브 랩"></label>
+        <div class="row2">
+          <label class="field"><span>회사 한 줄 소개</span><input type="text" name="tagline" maxlength="40" placeholder="예) 바다를 지키는 기술 연구소"></label>
+          <label class="field"><span>부서</span><input type="text" name="dept" maxlength="30" placeholder="예) 해양로봇연구팀"></label>
+        </div>
+      </section>
+
+      <section class="sec">
+        <h3><span class="n">3</span>미래의 나</h3>
+        <div class="field"><span>증명사진</span>
+          <div class="upload"><div class="thumb photo" id="photoThumb">🙂</div>
+            <div class="txt"><b>사진 올리기</b>세로 3:4 비율로 자동으로 맞춰요</div>
+            <div class="btns"><label class="btn sm">선택<input type="file" id="photoFile" accept="image/*" hidden></label>
+              <button type="button" class="btn sm" id="photoDel" hidden>지우기</button></div></div></div>
+        <div class="row2">
+          <label class="field"><span>이름 <span class="req">*</span></span><input type="text" name="name" maxlength="20" placeholder="예) 김미래"></label>
+          <label class="field"><span>영문 이름</span><input type="text" name="nameEn" maxlength="40" placeholder="예) KIM MIRAE"></label>
+        </div>
+        <label class="field"><span>미래의 직업·직함 <span class="req">*</span></span><input type="text" name="title" maxlength="30" placeholder="예) 해양환경 로봇 엔지니어"></label>
+        <label class="field"><span>자격증·등록번호 <small>(선택)</small></span><input type="text" name="cert" maxlength="50" placeholder="예) 국제 해양로봇 기술사 제2036-0815호"></label>
+      </section>
+
+      <section class="sec">
+        <h3><span class="n">4</span>연락처</h3>
+        <div class="notice">명함 주소는 다른 사람도 열어볼 수 있어요. <b>실제 전화번호·집 주소 대신</b> 010-0000-0000처럼 미래의 가상 정보를 적어 주세요.</div>
+        <div class="row2">
+          <label class="field"><span>휴대폰 (M)</span><input type="text" name="phone" maxlength="20" placeholder="010-0000-0000"></label>
+          <label class="field"><span>회사 전화 (T)</span><input type="text" name="tel" maxlength="20" placeholder="02-000-0000"></label>
+          <label class="field"><span>이메일 (E)</span><input type="text" name="email" maxlength="60" placeholder="mirae@future.com"></label>
+          <label class="field"><span>홈페이지·SNS (W)</span><input type="text" name="web" maxlength="60" placeholder="www.future.com"></label>
+        </div>
+        <label class="field"><span>회사 주소</span><input type="text" name="address" maxlength="80" placeholder="예) 부산시 해운대구 미래로 100, 12층"></label>
+      </section>
+
+      <section class="sec">
+        <h3><span class="n">5</span>나를 소개하는 세 줄 <small>클래식 포토 앞면에 보여요</small></h3>
+        <label class="field"><input type="text" name="bullet" maxlength="40" placeholder="예) 바다 쓰레기를 줍는 로봇을 만듭니다" aria-label="소개 1"></label>
+        <label class="field"><input type="text" name="bullet" maxlength="40" placeholder="예) 데이터로 바다의 건강을 지켜요" aria-label="소개 2"></label>
+        <label class="field"><input type="text" name="bullet" maxlength="40" placeholder="예) 함께 일하면 즐거운 동료" aria-label="소개 3"></label>
+      </section>
+
+      <section class="sec">
+        <h3><span class="n">6</span>뒷면 문구</h3>
+        <div class="chips" role="radiogroup" aria-label="문구 종류">
+          <label class="chip"><input type="radio" name="quoteType" value="slogan"><span>나의 슬로건</span></label>
+          <label class="chip"><input type="radio" name="quoteType" value="motto" checked><span>나의 좌우명</span></label>
+          <label class="chip"><input type="radio" name="quoteType" value="famous"><span>위인의 명언</span></label>
+          <label class="chip"><input type="radio" name="quoteType" value="phrase"><span>좋아하는 글귀</span></label>
+        </div>
+        <label class="field"><span>문구 <small id="qCount">0/120</small></span><textarea name="quote" maxlength="120" rows="3" placeholder="예) 미래를 예측하는 가장 좋은 방법은&#10;미래를 창조하는 것이다."></textarea></label>
+        <label class="field"><span>말한 사람·출처 <small>(선택)</small></span><input type="text" name="quoteBy" maxlength="30" placeholder="예) 피터 드러커"></label>
+      </section>
+
+      <section class="sec">
+        <h3><span class="n">7</span>공개 설정</h3>
+        <div class="vis-opts">
+          <label class="vis-opt"><input type="radio" name="visibility" value="public" checked><div><b>공개</b><span>NFC 태그나 주소로 누구나 명함을 볼 수 있어요.</span></div></label>
+          <label class="vis-opt"><input type="radio" name="visibility" value="private"><div><b>비공개</b><span>나와 선생님(관리자)만 볼 수 있어요. 나중에 언제든 바꿀 수 있어요.</span></div></label>
+        </div>
+        <div class="err-msg" id="formErr" role="alert"></div>
+        <div class="save-bar">
+          <button class="btn primary lg" id="btnSave">등록하기</button>
+          <button type="button" class="btn lg" id="btnShare" hidden>NFC·QR</button>
+          <button type="button" class="btn lg danger" id="btnDelete" hidden>삭제</button>
+        </div>
+      </section>
+    </form>
+
+    <aside class="preview" id="preview">
+      <div class="panel">
+        <div class="pv-head"><h3>미리보기</h3><span class="grow" style="flex:1"></span>
+          <button type="button" class="btn sm" id="btnSample">예시로 채우기</button>
+          <button type="button" class="btn sm" id="btnReset">비우기</button></div>
+        <div class="pv-label">앞면</div>
+        <div class="bc-frame" id="pvFront"></div>
+        <div class="pv-label">뒷면</div>
+        <div class="bc-frame" id="pvBack"></div>
+        <div class="pv-actions">
+          <button type="button" class="btn sm" id="pngFront">앞면 이미지 저장</button>
+          <button type="button" class="btn sm" id="pngBack">뒷면 이미지 저장</button>
+        </div>
+        <div class="edit-who" id="editWho" hidden></div>
+      </div>
+    </aside>
+  </div>
+</main>
+<a class="btn primary fab" href="#preview" id="fab" hidden>미리보기 ↑</a>
+
+<script type="module" src="js/edit.js"></script>
+</body>
+</html>

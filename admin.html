@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>관리자 · 미래 명함</title>
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="css/app.css">
+<link rel="stylesheet" href="css/card.css">
+<script src="js/vendor/qrcode.min.js" defer></script>
+</head>
+<body>
+<header id="header" class="top"></header>
+<main class="wrap">
+  <div id="gate" class="panel gate" hidden>
+    <div class="big">🧑‍🏫</div>
+    <h2>관리자(선생님) 로그인</h2>
+    <p class="hint" id="gateMsg">등록된 관리자 Google 계정으로 로그인하면 모든 학생의 명함을 보고, 고치고, 삭제할 수 있어요.</p>
+    <button class="btn primary lg" id="btnAdminLogin">Google 계정으로 로그인</button>
+    <div class="err-msg" id="gateErr" role="alert" style="margin-top:12px"></div>
+  </div>
+
+  <div id="adminApp" hidden>
+    <div class="list-head">
+      <h2>전체 명함 관리</h2><span class="grow"></span>
+      <button class="btn sm" id="btnCsv">명단 CSV 내려받기</button>
+      <button class="btn sm" id="btnReload">새로고침</button>
+    </div>
+    <div class="stats">
+      <div class="panel stat"><div class="k">전체 명함</div><div class="v" id="stAll">0</div></div>
+      <div class="panel stat"><div class="k">공개</div><div class="v" id="stPub">0</div></div>
+      <div class="panel stat"><div class="k">비공개</div><div class="v" id="stPri">0</div></div>
+    </div>
+    <div class="list-head">
+      <div class="filters">
+        <input type="search" id="q" placeholder="이름·아이디·회사·직업 검색" aria-label="검색">
+        <select id="fVis" aria-label="공개 여부"><option value="">공개 여부 전체</option><option value="public">공개만</option><option value="private">비공개만</option></select>
+        <select id="fSort" aria-label="정렬"><option value="updated">최근 수정 순</option><option value="name">이름 순</option><option value="owner">아이디 순</option></select>
+      </div>
+      <span class="grow"></span><span class="hint" id="shown"></span>
+    </div>
+    <div class="cards-grid" id="grid"></div>
+  </div>
+</main>
+<script type="module" src="js/admin.js"></script>
+</body>
+</html>

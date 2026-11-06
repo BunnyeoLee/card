@@ -1,0 +1,87 @@
+# 🪪 미래 명함 만들기 (NFC 키링 프로젝트)
+
+학생들이 **10년 뒤 나의 명함**을 만들고, 명함 주소를 **NFC 태그**에 담아 휴대폰을 대면 명함이 열리게 하는 웹앱입니다.
+GitHub Pages에서 그대로 동작하며, 로그인·저장은 무료 Firebase를 사용합니다.
+
+## 무엇을 할 수 있나요?
+
+| 누가 | 할 수 있는 일 |
+|---|---|
+| 학생 | 가입/로그인 · 명함 만들기(로고·증명사진 업로드, 정보 입력, 뒷면 좌우명/명언) · **수정 · 삭제** · **공개/비공개 설정** · NFC 쓰기 · QR · 이미지(PNG) 저장 |
+| 누구나 | 공개된 명함을 NFC 태그/QR/주소로 열어보기, 연락처(.vcf) 저장 |
+| 관리자(선생님) | **모든 명함 보기(비공개 포함) · 수정 · 삭제 · 공개 여부 변경** · 검색/정렬 · 명단 CSV 내려받기 |
+
+- 디자인 2종: **클래식 포토**(사진이 들어간 명함), **모던 스플릿**(로고 중심 명함) + 대표 색상 선택
+- 명함을 고쳐도 **주소는 그대로**라서 NFC 태그를 다시 쓸 필요가 없습니다.
+- 비공개로 바꾸면 태그를 읽어도 "볼 수 없는 명함"으로 표시됩니다.
+
+## 파일 구성
+
+```
+index.html      첫 화면 · 로그인/가입 · 내 명함 목록
+edit.html       명함 만들기 / 수정
+card.html       NFC·QR로 열리는 명함 보기 화면 (card.html?id=명함ID)
+admin.html      관리자 페이지
+firestore.rules Firebase 보안 규칙 (권한의 핵심)
+js/config.js    ★ 설정 파일 (Firebase 값, 관리자 이메일)
+```
+
+---
+
+## 1단계. GitHub Pages에 올리기
+
+1. GitHub에서 새 저장소(Repository)를 만듭니다. 예: `future-card` (Public)
+2. **Add file → Upload files**로 이 폴더의 파일을 **폴더 구조 그대로** 모두 올립니다. (`.nojekyll` 포함)
+3. 저장소 **Settings → Pages** → Source: `Deploy from a branch`, Branch: `main` / `(root)` → Save
+4. 1~2분 뒤 `https://내아이디.github.io/future-card/` 주소로 열립니다.
+
+> 이 상태에서는 **체험 모드**로 동작합니다(노란 띠 표시). 만든 명함이 그 브라우저에만 저장되므로, 수업 전에 꼭 2단계를 진행하세요.
+> 체험 모드에서는 관리자 페이지의 "체험용 관리자로 들어가기"로 관리자 기능도 미리 볼 수 있습니다.
+
+## 2단계. Firebase 연결하기 (무료, 약 10분)
+
+1. <https://console.firebase.google.com> 접속 → **프로젝트 추가** (Google 애널리틱스는 꺼도 됩니다)
+2. **빌드 → Authentication → 시작하기 → 로그인 방법**에서 두 가지를 켭니다.
+   - **이메일/비밀번호** (학생용)
+   - **Google** (선생님 관리자용)
+3. Authentication → **설정 → 승인된 도메인 → 도메인 추가**: `내아이디.github.io`
+4. **빌드 → Firestore Database → 데이터베이스 만들기** → 위치 `asia-northeast3 (서울)` → **프로덕션 모드**
+5. Firestore → **규칙** 탭에 `firestore.rules` 내용을 전부 붙여넣고,
+   `'teacher@example.com'` 을 **선생님 Google 이메일**로 바꾼 뒤 **게시**
+   (여러 명이면 `['a@gmail.com', 'b@school.kr']` 처럼 씁니다)
+6. **프로젝트 설정(⚙️) → 내 앱 → 웹(</>) 앱 추가** → 나오는 `firebaseConfig` 값을 `js/config.js`의 `firebase` 칸에 붙여넣기
+7. `js/config.js`의 `adminEmails`에도 **5번과 같은 이메일**을 넣기
+8. 바뀐 `js/config.js`를 GitHub에 다시 올리면 끝! (GitHub에서 파일을 열고 ✏️로 바로 고쳐도 됩니다)
+
+> `firebaseConfig` 값은 공개되어도 괜찮은 값입니다. 실제 권한은 5번의 보안 규칙이 지킵니다.
+> 무료(Spark) 요금제로 충분합니다. 사진·로고는 자동으로 작게 줄여 저장합니다.
+
+### 권한은 이렇게 지켜집니다 (firestore.rules)
+- 공개 명함: 누구나 보기 / 비공개 명함: **주인과 관리자만** 보기
+- 수정·삭제·공개 설정 변경: **주인과 관리자만**
+- 관리자: 규칙에 적힌 **인증된 Google 이메일**만 (학생 계정은 관리자가 될 수 없음)
+
+## 3단계. 수업 진행
+
+1. 학생: 첫 화면에서 **처음이에요(가입)** → 이름·아이디(영문 소문자/숫자, 예: `30215kim`)·비밀번호
+2. **미래 명함 만들기** → 로고/사진 올리기 → 정보 입력 → 공개 설정 → **등록하기**
+3. 등록 창에 나오는 **주소를 NFC 태그에 쓰기**
+   - **안드로이드 + 크롬**: 창의 **[NFC 태그에 쓰기]** 버튼 → 휴대폰 뒷면을 태그에 대기
+   - **아이폰/기타**: 무료 앱 **NFC Tools** → 쓰기 → 기록 추가 → URL → 주소 붙여넣기 → 쓰기
+4. 태그(키링)에 휴대폰을 대면 명함이 열립니다. 명함을 누르면 앞/뒷면이 뒤집혀요.
+
+**NFC 태그 고르기**: NTAG213(144바이트)이면 충분합니다. 주소가 짧아(약 60자) 어떤 NTAG 태그든 됩니다.
+**인쇄**: 편집 화면의 "앞면/뒷면 이미지 저장"은 1800×1000px PNG(90×50mm 명함 비율)로 저장됩니다.
+
+## 자주 묻는 질문
+
+- **학생이 비밀번호를 잊었어요** → Firebase 콘솔 → Authentication → 사용자에서 해당 아이디(`아이디@student.futurecard`)를 찾아 삭제 후 다시 가입하게 하거나, 관리자 페이지에서 명함을 대신 수정해 주세요. (기존 명함은 남아 있으니 선생님이 관리할 수 있습니다)
+- **관리자 로그인이 안 돼요** → ① Authentication에서 Google 로그인이 켜져 있는지 ② 승인된 도메인에 `github.io` 주소가 있는지 ③ `firestore.rules`와 `config.js` 두 곳의 이메일이 같은지 확인하세요.
+- **개인정보**: 편집 화면에 "실제 전화번호·집 주소 대신 가상 정보를 쓰라"는 안내가 있습니다. 증명사진이 부담되면 아바타·그림을 올려도 됩니다.
+- **PC에서 파일을 더블클릭하면 안 열려요** → 정상입니다. GitHub Pages 주소로 열거나, 폴더에서 `python -m http.server`로 실행해 `http://localhost:8000`으로 여세요.
+
+## 사용한 오픈소스
+- [html2canvas](https://html2canvas.hertzen.com/) (MIT) – 명함 이미지 저장 (`js/vendor`)
+- [qrcodejs](https://github.com/davidshimjs/qrcodejs) (MIT) – QR코드 (`js/vendor`)
+- [Pretendard](https://github.com/orioncactus/pretendard) (OFL) – 글꼴
+- Firebase Authentication / Cloud Firestore
