@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>갤러리2 · 미래 명함</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="css/app.css">
+<link rel="stylesheet" href="css/gallery.css">
+</head>
+<body>
+<header id="header" class="top"></header>
+
+<main class="wrap" id="galApp">
+  <div id="gate" class="panel gate" hidden>
+    <div class="big">🖼️</div>
+    <h2>로그인하고 이용해 주세요</h2>
+    <p class="hint">갤러리2에서는 AI로 만든 이미지, 사진, 회사 로고를 올리고 골라서 키링 크기(5×4.5cm)로 인쇄할 수 있어요.</p>
+    <a class="btn primary lg" href="./#login">로그인하러 가기</a>
+  </div>
+
+  <div id="gal" hidden>
+    <div class="list-head">
+      <h2>갤러리2</h2>
+      <span class="hint">AI 이미지 · 사진 · 로고를 올리고 골라서 <b>5 × 4.5cm</b> 크기로 인쇄해요</span>
+    </div>
+
+    <label class="drop panel" id="drop">
+      <input type="file" id="file" accept="image/png,image/jpeg,image/webp,image/gif,image/bmp" multiple>
+      <span class="drop-ico" aria-hidden="true">⬆️</span>
+      <span class="drop-txt"><b>이미지 올리기</b>여기를 눌러 고르거나, 파일을 끌어다 놓으세요. 여러 장을 한 번에 올릴 수 있어요.<br>
+        <small>PNG·JPG·WEBP · 인쇄에 알맞게 자동으로 크기를 줄여 저장해요 · 로고의 투명 배경은 그대로 유지돼요</small></span>
+      <span class="drop-st" id="upSt" aria-live="polite"></span>
+    </label>
+
+    <div class="g-bar panel" id="bar">
+      <label class="chk-all"><input type="checkbox" id="chkAll"> 전체 선택</label>
+      <span class="sel-n" id="selN">0개 선택</span>
+      <span class="filters" id="adminFilters" hidden>
+        <input type="search" id="q" placeholder="이름·아이디·제목 검색" aria-label="검색">
+      </span>
+      <span class="grow"></span>
+      <button class="btn sm danger" id="btnDel" disabled>선택 삭제</button>
+      <button class="btn primary" id="btnPrint" disabled>🖨️ 선택한 이미지 인쇄</button>
+    </div>
+
+    <div class="g-grid" id="grid"></div>
+  </div>
+</main>
+
+<!-- 인쇄될 내용 (인쇄할 때만 보임) -->
+<div id="printRoot" aria-hidden="true"></div>
+
+<script type="module" src="js/gallery.js"></script>
+</body>
+</html>

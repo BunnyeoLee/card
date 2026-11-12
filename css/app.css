@@ -21,6 +21,15 @@ img { max-width: 100%; }
 .top nav a:hover, .top nav button:hover { background: var(--soft); }
 .top nav .who { font-size: 14px; color: var(--muted); padding: 0 6px; white-space: nowrap; max-width: 140px; overflow: hidden; text-overflow: ellipsis; }
 .top nav .admin-link { color: #7b3fe4; }
+@media (max-width: 600px) {
+  .top-in { gap: 6px; padding: 0 10px; }
+  .brand { font-size: 15px; gap: 7px; }
+  .brand-mark { width: 26px; height: 26px; }
+  .top nav { gap: 0; }
+  .top nav .who { display: none; }
+  .top nav a, .top nav button { padding: 7px 8px; font-size: 14px; }
+}
+@media (max-width: 400px) { .brand { font-size: 0; gap: 0; } }
 
 .demo-bar { background: #fff7e0; color: #7a5300; font-size: 13.5px; text-align: center; padding: 7px 16px; border-bottom: 1px solid #f3e2b0; }
 

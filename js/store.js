@@ -18,7 +18,9 @@ export function newId() {
   return [...crypto.getRandomValues(new Uint8Array(8))].map((x) => a[x % a.length]).join('');
 }
 export const validId = (id) => ID_RE.test(id || '');
-export const cardUrl = (id) => new URL(`card.html?id=${encodeURIComponent(id)}`, location.href).href;
+// NFC 태그에 쓰는 짧은 주소: https://아이디.github.io/저장소/?명함ID
+// (index.html 이 card.html?id=명함ID 로 바로 넘겨 줍니다. 예전 긴 주소도 그대로 열려요.)
+export const cardUrl = (id) => new URL(`./?${encodeURIComponent(id)}`, location.href).href;
 
 /* ---------------------------------------------------------- Firebase */
 let fbP = null;
@@ -132,7 +134,35 @@ const firebaseBackend = {
     const snap = await F.getDocs(F.collection(db, 'cards'));
     return snap.docs.map((s) => fromDoc(s.id, s.data())).sort((a, b) => b.updatedAt - a.updatedAt);
   }),
+
+  /* 갤러리2 이미지 (images 컬렉션) */
+  listImages: wrap(async (user) => {
+    const { db, F } = await fb();
+    const col = F.collection(db, 'images');
+    const snap = await F.getDocs(user.isAdmin ? col : F.query(col, F.where('owner', '==', user.uid)));
+    return snap.docs.map((s) => fromImg(s.id, s.data())).sort((a, b) => b.createdAt - a.createdAt);
+  }),
+  addImage: wrap(async (user, img) => {
+    const { db, F } = await fb();
+    const ref = F.doc(db, 'images', newId());
+    await F.setDoc(ref, { ...cleanImg(img), owner: user.uid, ownerId: user.loginId, ownerName: user.name, createdAt: F.serverTimestamp() });
+    return ref.id;
+  }),
+  deleteImage: wrap(async (id) => { const { db, F } = await fb(); await F.deleteDoc(F.doc(db, 'images', id)); }),
 };
+
+/* ---------------------------------------------------------- 이미지 공통 */
+export const IMG_MAX = 900000; // Firestore 문서 한도(1MB) 안에 들어가도록
+function cleanImg(src = {}) {
+  const data = String(src.data || '');
+  if (!/^data:image\/(png|jpeg|webp);base64,/.test(data)) throw new AppError('bad-image', '이미지 형식이 올바르지 않아요.');
+  if (data.length > IMG_MAX) throw new AppError('too-big', '이미지가 너무 커요.');
+  return { title: String(src.title || '').slice(0, 40), data, w: Math.round(+src.w || 0), h: Math.round(+src.h || 0) };
+}
+function fromImg(id, d) {
+  return { id, title: d.title || '', data: /^data:image\//.test(d.data || '') ? d.data : '', w: d.w || 0, h: d.h || 0,
+    owner: d.owner, ownerId: d.ownerId || '', ownerName: d.ownerName || '', createdAt: toMs(d.createdAt) };
+}
 
 /* ---------------------------------------------------------- 체험 모드 */
 const LS = {
@@ -213,6 +243,22 @@ const demoBackend = {
   async listAll() {
     if (!session()?.isAdmin) throw new AppError('permission-denied', '관리자만 볼 수 있어요.');
     return Object.entries(cardsLS()).map(([id, c]) => ({ ...sanitizeCard(c), ...c, id })).sort((a, b) => b.updatedAt - a.updatedAt);
+  },
+  async listImages(user) {
+    return Object.entries(LS.get('fc_images', {})).filter(([, d]) => user.isAdmin || d.owner === user.uid)
+      .map(([id, d]) => fromImg(id, d)).sort((a, b) => b.createdAt - a.createdAt);
+  },
+  async addImage(user, img) {
+    const all = LS.get('fc_images', {});
+    const id = newId();
+    all[id] = { ...cleanImg(img), owner: user.uid, ownerId: user.loginId, ownerName: user.name, createdAt: Date.now() };
+    LS.set('fc_images', all);
+    return id;
+  },
+  async deleteImage(id) {
+    const all = LS.get('fc_images', {});
+    if (!all[id] || !canEdit(all[id], session())) throw new AppError('permission-denied', '이 작업을 할 권한이 없어요.');
+    delete all[id]; LS.set('fc_images', all);
   },
 };
 

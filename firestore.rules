@@ -46,5 +46,23 @@ service cloud.firestore {
       // 삭제: 주인 또는 관리자
       allow delete: if isOwner(resource.data) || isAdmin();
     }
+
+    // ── 갤러리2: 인쇄용 이미지 (AI 이미지·사진·로고) ──
+    function validImage(d) {
+      return d.keys().hasOnly(['title', 'data', 'w', 'h', 'owner', 'ownerId', 'ownerName', 'createdAt'])
+        && d.data is string && d.data.size() > 30 && d.data.size() <= 900000
+        && str(d, 'title', 40);
+    }
+
+    match /images/{imgId} {
+      // 보기·목록: 올린 사람과 관리자만
+      allow get, list: if isOwner(resource.data) || isAdmin();
+      // 올리기: 로그인한 사람이 자기 이름으로만
+      allow create: if signedIn()
+        && request.resource.data.owner == request.auth.uid
+        && validImage(request.resource.data);
+      // 삭제: 올린 사람 또는 관리자
+      allow delete: if isOwner(resource.data) || isAdmin();
+    }
   }
 }

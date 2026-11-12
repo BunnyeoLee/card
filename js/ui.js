@@ -30,6 +30,7 @@ export function renderHeader(user) {
         ${user ? `
           ${user.isAdmin ? '<a class="admin-link" href="admin.html">관리자</a>' : ''}
           <a href="./#mine">내 명함</a>
+          <a href="gallery.html"${/gallery\.html$/.test(location.pathname) ? ' class="on" aria-current="page"' : ''}>갤러리2</a>
           <span class="who" title="${esc(user.loginId)}">${esc(user.name)}님</span>
           <button type="button" id="btnLogout">로그아웃</button>`
         : `<a href="./#login">로그인</a>`}
