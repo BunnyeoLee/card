@@ -2,6 +2,10 @@
 <html lang="ko">
 <head>
 <meta charset="utf-8">
+<script>
+  // 짧은 명함 주소(./?명함ID)로 들어오면 명함 보기 화면으로 바로 이동
+  (function () { var q = location.search.slice(1); if (/^[A-Za-z0-9_-]{3,40}$/.test(q)) location.replace('card.html?id=' + q); })();
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>미래 명함 만들기</title>
 <meta name="description" content="10년 뒤 나의 명함을 만들고 NFC 태그에 담아 보세요.">
